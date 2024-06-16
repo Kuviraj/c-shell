@@ -15,13 +15,13 @@ char *get_path_type(char *word) {
     DIR *dir = opendir(iter_path);
     struct dirent *entry;
     if (dir == NULL)
-      continue;
+      break;
     while ((entry = readdir(dir)) != NULL) {
-      if (strcmp(p, (entry->d_name)) == 0){
+      if (strcmp(p, (entry->d_name)) == 0) {
 
-                iter_path = strcat(iter_path, "/");
+        iter_path = strcat(iter_path, "/");
         return strcat(iter_path, p);
-            }
+      }
     }
     iter_path = strtok(NULL, ":");
   }
