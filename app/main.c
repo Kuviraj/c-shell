@@ -17,8 +17,11 @@ char *get_path_type(char *word) {
     if (dir == NULL)
       continue;
     while ((entry = readdir(dir)) != NULL) {
-      if (strcmp(p, (entry->d_name)) == 0)
+      if (strcmp(p, (entry->d_name)) == 0){
+
+                iter_path = strcat(iter_path, "/");
         return strcat(iter_path, p);
+            }
     }
     iter_path = strtok(NULL, ":");
   }
@@ -43,7 +46,7 @@ int main() {
     char *p = strtok(input, " ");
 
     if (strcmp(p, "echo") == 0) {
-      printf("%s\n\n", input + 5);
+      printf("%s\n", input + 5);
     } else if (strcmp(p, "type") == 0) {
       int found = 0;
       p = strtok(NULL, " ");
@@ -53,16 +56,16 @@ int main() {
       }
 
       if (found) {
-        printf("%s is a shell builtin\n\n", p);
+        printf("%s is a shell builtin\n", p);
       } else {
         char *new_status = get_path_type(p);
         if (new_status)
-          printf("%s is %s\n\n", p, new_status);
+          printf("%s is %s\n", p, new_status);
         else
-          printf("%s: not found\n\n", p);
+          printf("%s: not found\n", p);
       }
     } else {
-      printf("%s: command not found\n\n", &input[0]);
+      printf("%s: command not found\n", &input[0]);
     }
   }
   return 0;
