@@ -1,5 +1,29 @@
+#include <dirent.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+
+char *get_path_type(char *word) {
+  char *temp_path = getenv("PATH");
+  if (temp_path == NULL)
+    return 0;
+  char *p = strtok(word, " ");
+  char *path = strdup(temp_path);
+  char *iter_path = strtok(path, ":");
+  while (iter_path != NULL) {
+    // get list of files for each path
+    DIR *dir = opendir(iter_path);
+    struct dirent *entry;
+    if (dir == NULL)
+      continue;
+    while ((entry = readdir(dir)) != NULL) {
+      if (strcmp(p, (entry->d_name)) == 0)
+        return strcat(iter_path, p);
+    }
+    iter_path = strtok(NULL, ":");
+  }
+  return NULL;
+}
 
 int main() {
   /*Uncomment this block to pass the first stage*/
@@ -15,6 +39,7 @@ int main() {
 
     if (strcmp(input, "exit 0") == 0)
       break;
+
     char *p = strtok(input, " ");
 
     if (strcmp(p, "echo") == 0) {
@@ -26,10 +51,15 @@ int main() {
         if (strcmp(p, words[i]) == 0)
           found = 1;
       }
+
       if (found) {
         printf("%s is a shell builtin\n", p);
       } else {
-        printf("%s: not found\n", p);
+        char *new_status = get_path_type(p);
+        if (new_status != NULL)
+          printf("%s is %s\n", p, new_status);
+        else
+          printf("%s: not found\n", p);
       }
     } else {
       printf("%s: command not found\n", &input[0]);
