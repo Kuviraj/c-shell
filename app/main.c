@@ -15,12 +15,7 @@ int main() {
       break;
     char *p = strtok(input, " ");
     if (strcmp(p, "echo") == 0) {
-      p = strtok(NULL, " ");
-      while (p != NULL) {
-        printf("%s ", p);
-        p = strtok(NULL, " ");
-      }
-      printf("\n");
+      printf("%s\n", input + 5);
     } else {
 
       printf("%s: command not found\n", &input[0]);
