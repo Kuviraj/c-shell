@@ -56,8 +56,8 @@ int main() {
         printf("%s is a shell builtin\n", p);
       } else {
         char *new_status = get_path_type(p);
-        if (new_status != NULL)
-          printf("%s is %s", p, new_status);
+        if (new_status)
+          printf("%s is %s\n", p, new_status);
         else
           printf("%s: not found\n", p);
       }
