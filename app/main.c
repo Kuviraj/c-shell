@@ -57,7 +57,7 @@ int main() {
       } else {
         char *new_status = get_path_type(p);
         if (new_status)
-          printf("%s is %s\n", p, new_status);
+          printf("%s is%s\n", p, new_status);
         else
           printf("%s: not found\n", p);
       }
