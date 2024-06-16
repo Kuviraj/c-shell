@@ -68,7 +68,12 @@ int main() {
           printf("%s: not found\n", p);
       }
     } else {
-      printf("%s: command not found\n", &input[0]);
+      char *command = strtok(input, " ");
+      char *new_status = get_path_type(command);
+      if (new_status) {
+        system(input);
+      } else
+        printf("%s: command not found\n", &input[0]);
     }
   }
   return 0;
