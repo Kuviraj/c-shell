@@ -14,8 +14,11 @@ char *get_path_type(char *word) {
     // get list of files for each path
     DIR *dir = opendir(iter_path);
     struct dirent *entry;
-    if (dir == NULL)
-      break;
+    if (dir == NULL) {
+
+      iter_path = strtok(NULL, ":");
+      continue;
+    }
     while ((entry = readdir(dir)) != NULL) {
       if (strcmp(p, (entry->d_name)) == 0) {
 
