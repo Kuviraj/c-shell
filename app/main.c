@@ -42,10 +42,10 @@ int main() {
     fgets(input, 100, stdin);
     input[strcspn(input, "\n")] = 0;
     char words[3][10] = {"exit", "echo", "type"};
-
+    char* full_input = strdup(input);
     if (strcmp(input, "exit 0") == 0)
       break;
-
+    
     char *p = strtok(input, " ");
 
     if (strcmp(p, "echo") == 0) {
@@ -71,7 +71,7 @@ int main() {
       char *command = strtok(input, " ");
       char *new_status = get_path_type(command);
       if (new_status) {
-        system(input);
+        system(full_input);
       } else
         printf("%s: command not found\n", &input[0]);
     }
