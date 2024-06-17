@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -69,7 +70,14 @@ int main() {
           printf("%s: not found\n", p);
       }
     } else if (strcmp(p, "cd") == 0) {
-        if(chdir(full_input + 3) < 0) printf("cd: %s: No such file or directory\n", full_input + 3);
+      full_input += 3;
+      if (full_input[0] == '~') {
+        char* home_path = getenv("HOME");
+        full_input += 1;
+        full_input = strcat(home_path, full_input);
+      }
+      if (chdir(full_input) < 0)
+        printf("cd: %s: No such file or directory\n", full_input);
     } else {
       char *command = strtok(input, " ");
       char *new_status = get_path_type(command);
