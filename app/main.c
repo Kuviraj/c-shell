@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 char *get_path_type(char *word) {
   char *temp_path = getenv("PATH");
@@ -41,11 +42,11 @@ int main() {
     char input[100];
     fgets(input, 100, stdin);
     input[strcspn(input, "\n")] = 0;
-    char words[3][10] = {"exit", "echo", "type"};
-    char* full_input = strdup(input);
+    char words[4][10] = {"exit", "echo", "type", "cd"};
+    char *full_input = strdup(input);
     if (strcmp(input, "exit 0") == 0)
       break;
-    
+
     char *p = strtok(input, " ");
 
     if (strcmp(p, "echo") == 0) {
@@ -53,7 +54,7 @@ int main() {
     } else if (strcmp(p, "type") == 0) {
       int found = 0;
       p = strtok(NULL, " ");
-      for (int i = 0; i < 3; i++) {
+      for (int i = 0; i < 4; i++) {
         if (strcmp(p, words[i]) == 0)
           found = 1;
       }
@@ -67,6 +68,8 @@ int main() {
         else
           printf("%s: not found\n", p);
       }
+    } else if (strcmp(p, "cd") == 0) {
+        if(chdir(full_input + 3) < 0) printf("cd: %s: No such file or directory\n", full_input + 3);
     } else {
       char *command = strtok(input, " ");
       char *new_status = get_path_type(command);
