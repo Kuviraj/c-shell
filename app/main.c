@@ -38,6 +38,7 @@ int main() {
   // Wait for user input
   while (1) {
     printf("$ ");
+    system("pwd");
     fflush(stdout);
 
     char input[100];
